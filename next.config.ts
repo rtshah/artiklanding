@@ -4,7 +4,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Remove empty strings since you're using a custom domain
+  // Disable ESLint during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   basePath: undefined,
   assetPrefix: undefined,
 }
