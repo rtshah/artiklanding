@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import BetaModal from '@/components/BetaModal'
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
-  const howArtikWorksRef = useRef<HTMLElement>(null)
+  const howArtikWorksRef = useRef<HTMLDivElement>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -14,11 +16,24 @@ export default function Home() {
   }, [])
 
   const scrollToHowArtikWorks = () => {
-    howArtikWorksRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+    const element = document.getElementById('how-artik-works');
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const openModal = () => setIsModalOpen(true)
 
   return (
     <div className="min-h-screen cosmic-background">
+      <BetaModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <header className="fixed w-full z-50 bg-black bg-opacity-50 backdrop-blur-md">
         <nav className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
@@ -34,7 +49,10 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow">
+              <button 
+                onClick={openModal}
+                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow"
+              >
                 Get Started
               </button>
             </motion.div>
@@ -61,15 +79,41 @@ export default function Home() {
             >
               Artik’s AI-powered platform automates social media lead generation and outreach, streamlining your brand’s marketing.
               </motion.p>
-            <motion.button
-              className="bg-purple-600 hover:bg-purple-700 text-white text-lg font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              onClick={scrollToHowArtikWorks}
-            >
-              Discover Artik
-            </motion.button>
+            <div className="flex flex-col items-center">
+              <motion.p
+                className="text-xl text-white mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                Discover Artik
+              </motion.p>
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: [0, 10, 0] 
+                }}
+                transition={{ 
+                  duration: 2,
+                  delay: 0.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
+              </motion.svg>
+            </div>
           </div>
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50"></div>
@@ -77,7 +121,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-20 relative" ref={howArtikWorksRef}>
+        <section 
+          id="how-artik-works"
+          className="py-20 relative"
+        >
           <div className="container mx-auto px-6">
             <motion.h3
               className="text-4xl md:text-5xl font-bold mb-12 text-center font-space-grotesk text-glow"
@@ -145,7 +192,7 @@ export default function Home() {
                 <ul className="space-y-4">
                   {[
                     { title: "Sentiment Analysis", description: "Gauge audience reactions and engagement levels accurately." },
-                    { title: "Multi-Platform Integration", description: "Seamlessly manage campaigns across TikTok, Instagram, and more." },
+                    { title: "Multi-Platform Integration", description: "Seamlessly manage campaigns across TikTok and Instagram." },
                     { title: "Customizable Outreach Sequences", description: "Design and automate personalized communication flow." }
                   ].map((feature, index) => (
                     <motion.li
@@ -188,6 +235,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: scrollY > 1600 ? 1 : 0, y: scrollY > 1600 ? 0 : 20 }}
               transition={{ duration: 0.8, delay: 0.4 }}
+              onClick={openModal}
             >
               Get Started with Artik
             </motion.button>
