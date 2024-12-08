@@ -1,101 +1,187 @@
-import Image from "next/image";
+'use client'
+
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [scrollY, setScrollY] = useState(0)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <div className="min-h-screen cosmic-background">
+      <header className="fixed w-full z-50 bg-black bg-opacity-50 backdrop-blur-md">
+        <nav className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h1 className="text-3xl font-bold font-space-grotesk text-glow">Artik</h1>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow">
+                Get Started
+              </button>
+            </motion.div>
+          </div>
+        </nav>
+      </header>
+
+      <main>
+        <section className="h-screen flex items-center justify-center relative overflow-hidden">
+          <div className="container mx-auto px-6 text-center">
+            <motion.h2
+              className="text-5xl md:text-7xl font-bold mb-8 font-space-grotesk text-glow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              Influencer Marketing with AI Agents
+            </motion.h2>
+            <motion.p
+              className="text-xl md:text-2xl mb-12 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Artik’s AI-powered platform automates social media lead generation and outreach, streamlining your brand’s marketing.
+            </motion.p>
+            <motion.button
+              className="bg-purple-600 hover:bg-purple-700 text-white text-lg font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Discover Artik
+            </motion.button>
+          </div>
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50"></div>
+            <div className="stars absolute inset-0"></div>
+          </div>
+        </section>
+
+        <section className="py-20 relative">
+          <div className="container mx-auto px-6">
+            <motion.h3
+              className="text-4xl md:text-5xl font-bold mb-12 text-center font-space-grotesk text-glow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: scrollY > 200 ? 1 : 0, y: scrollY > 200 ? 0 : 20 }}
+              transition={{ duration: 0.8 }}
+            >
+              How Our Agents Work
+            </motion.h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {[
+                { title: "Intelligent Discovery", description: "Artik scans TikTok for trending creators based on your custom keywords and qualitative and quantitative criteria." },
+                { title: "Influencer Analysis", description: "Assesses follower counts, view averages, audience and comment sentiment, engagement, and creator characteristics." },
+                { title: "Automated Outreach", description: "Sends personalized messages, emails, and post interactions, managing your entire outreach process with precision." },
+                { title: "Smart Follow-ups", description: "CRM system tracks responses and automates timely follow-ups, ensuring no opportunity is missed." },
+                { title: "Complete Control", description: "Artik uses the criteria you input, from keywords to influencer attributes, giving you the right influencers for your brand." },
+                { title: "Seamless Integration", description: "From initial discovery to final negotiations, Artik integrates smoothly with your existing workflow." }
+              ].map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-gray-900 bg-opacity-50 rounded-lg p-6 hover:bg-opacity-70 transition duration-300 ease-in-out transform hover:scale-105 hover-glow"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: scrollY > 300 ? 1 : 0, y: scrollY > 300 ? 0 : 20 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                >
+                  <h4 className="text-xl font-bold mb-4 font-space-grotesk">{feature.title}</h4>
+                  <p>{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 relative overflow-hidden">
+          <div className="container mx-auto px-6">
+            <motion.h3
+              className="text-4xl md:text-5xl font-bold mb-12 text-center font-space-grotesk text-glow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: scrollY > 800 ? 1 : 0, y: scrollY > 800 ? 0 : 20 }}
+              transition={{ duration: 0.8 }}
+            >
+              Elevate Your Influencer Strategy
+            </motion.h3>
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <motion.div
+                className="w-full"
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: scrollY > 900 ? 1 : 0, x: scrollY > 900 ? 0 : -50 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h4 className="text-3xl font-bold mb-6 font-space-grotesk">Unparalleled Efficiency</h4>
+                <p className="text-lg mb-6">AI Agents revolutionize influencer discovery and outreach, saving you countless hours and resources.</p>
+                <ul className="list-disc list-inside space-y-2">
+                  <li>Customizable search parameters</li>
+                  <li>In-depth audience analysis</li>
+                  <li>Automated, personalized communication</li>
+                  <li>Intelligent follow-up management</li>
+                </ul>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 relative">
+          <div className="container mx-auto px-6 text-center">
+            <motion.h3
+              className="text-4xl md:text-5xl font-bold mb-12 font-space-grotesk text-glow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: scrollY > 1400 ? 1 : 0, y: scrollY > 1400 ? 0 : 20 }}
+              transition={{ duration: 0.8 }}
+            >
+              Ready to Transform Your Influencer Marketing?
+            </motion.h3>
+            <motion.p
+              className="text-xl mb-12 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: scrollY > 1500 ? 1 : 0, y: scrollY > 1500 ? 0 : 20 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Artik's AI Agents are ready to save you time, money, and empower you to scale faster.
+            </motion.p>
+            <motion.button
+              className="bg-purple-600 hover:bg-purple-700 text-white text-lg font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: scrollY > 1600 ? 1 : 0, y: scrollY > 1600 ? 0 : 20 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              Get Started with Artik
+            </motion.button>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="bg-black bg-opacity-50 py-8">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} Artik. All rights reserved.</p>
+          <div className="mt-4 flex justify-center space-x-6">
+            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+              Privacy Policy
+            </a>
+            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+              Terms of Service
+            </a>
+            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+              Contact Us
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
+
