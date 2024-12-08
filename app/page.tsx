@@ -1,16 +1,21 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
+  const howArtikWorksRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const scrollToHowArtikWorks = () => {
+    howArtikWorksRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
     <div className="min-h-screen cosmic-background">
@@ -55,12 +60,13 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               Artik’s AI-powered platform automates social media lead generation and outreach, streamlining your brand’s marketing.
-            </motion.p>
+              </motion.p>
             <motion.button
               className="bg-purple-600 hover:bg-purple-700 text-white text-lg font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
+              onClick={scrollToHowArtikWorks}
             >
               Discover Artik
             </motion.button>
@@ -71,7 +77,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-20 relative">
+        <section className="py-20 relative" ref={howArtikWorksRef}>
           <div className="container mx-auto px-6">
             <motion.h3
               className="text-4xl md:text-5xl font-bold mb-12 text-center font-space-grotesk text-glow"
@@ -79,7 +85,7 @@ export default function Home() {
               animate={{ opacity: scrollY > 200 ? 1 : 0, y: scrollY > 200 ? 0 : 20 }}
               transition={{ duration: 0.8 }}
             >
-              How Our Agents Work
+              How Artik Works
             </motion.h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
               {[
@@ -115,20 +121,44 @@ export default function Home() {
             >
               Elevate Your Influencer Strategy
             </motion.h3>
-            <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="grid md:grid-cols-2 gap-12">
               <motion.div
-                className="w-full"
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: scrollY > 900 ? 1 : 0, x: scrollY > 900 ? 0 : -50 }}
                 transition={{ duration: 0.8 }}
               >
                 <h4 className="text-3xl font-bold mb-6 font-space-grotesk">Unparalleled Efficiency</h4>
-                <p className="text-lg mb-6">AI Agents revolutionize influencer discovery and outreach, saving you countless hours and resources.</p>
+                <p className="text-lg mb-6">Artik's AI Agents revolutionize influencer discovery and outreach, saving you countless hours and resources.</p>
                 <ul className="list-disc list-inside space-y-2">
                   <li>Customizable search parameters</li>
                   <li>In-depth audience analysis</li>
                   <li>Automated, personalized communication</li>
                   <li>Intelligent follow-up management</li>
+                </ul>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: scrollY > 900 ? 1 : 0, x: scrollY > 900 ? 0 : 50 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h4 className="text-3xl font-bold mb-6 font-space-grotesk">Advanced Features</h4>
+                <ul className="space-y-4">
+                  {[
+                    { title: "Sentiment Analysis", description: "Gauge audience reactions and engagement levels accurately." },
+                    { title: "Multi-Platform Integration", description: "Seamlessly manage campaigns across TikTok, Instagram, and more." },
+                    { title: "Customizable Outreach Sequences", description: "Design and automate personalized communication flow." }
+                  ].map((feature, index) => (
+                    <motion.li
+                      key={index}
+                      className="bg-purple-900 bg-opacity-20 rounded-lg p-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: scrollY > 950 ? 1 : 0, y: scrollY > 950 ? 0 : 20 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
+                      <h5 className="text-xl font-bold mb-2">{feature.title}</h5>
+                      <p>{feature.description}</p>
+                    </motion.li>
+                  ))}
                 </ul>
               </motion.div>
             </div>
@@ -144,7 +174,7 @@ export default function Home() {
               transition={{ duration: 0.8 }}
             >
               Ready to Transform Your Influencer Marketing?
-            </motion.h3>
+              </motion.h3>
             <motion.p
               className="text-xl mb-12 max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
@@ -152,7 +182,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               Artik's AI Agents are ready to save you time, money, and empower you to scale faster.
-            </motion.p>
+              </motion.p>
             <motion.button
               className="bg-purple-600 hover:bg-purple-700 text-white text-lg font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover-glow"
               initial={{ opacity: 0, y: 20 }}
@@ -168,17 +198,6 @@ export default function Home() {
       <footer className="bg-black bg-opacity-50 py-8">
         <div className="container mx-auto px-6 text-center">
           <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} Artik. All rights reserved.</p>
-          <div className="mt-4 flex justify-center space-x-6">
-            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
-              Terms of Service
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition duration-300">
-              Contact Us
-            </a>
-          </div>
         </div>
       </footer>
     </div>
