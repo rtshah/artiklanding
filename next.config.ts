@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',  // Enable static exports
+  output: 'export',
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true,
   },
-  // Required for GitHub Pages
-  basePath: '',
-  assetPrefix: '',
+  // Remove empty strings since you're using a custom domain
+  basePath: undefined,
+  assetPrefix: undefined,
 }
 
 module.exports = nextConfig
