@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 interface BetaModalProps {
   isOpen: boolean;
@@ -19,15 +21,11 @@ export default function BetaModal({ isOpen, onClose }: BetaModalProps) {
     setStatus('submitting');
 
     try {
-      const response = await fetch('/api/submit-beta', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      // Add document to 'beta-submissions' collection
+      await addDoc(collection(db, 'beta-submissions'), {
+        ...formData,
+        timestamp: serverTimestamp(),
       });
-
-      if (!response.ok) throw new Error('Submission failed');
 
       setStatus('success');
       setTimeout(() => {
@@ -36,6 +34,7 @@ export default function BetaModal({ isOpen, onClose }: BetaModalProps) {
         setFormData({ name: '', email: '', description: '' });
       }, 2000);
     } catch (error) {
+      console.error('Error submitting form:', error);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
@@ -129,4 +128,4 @@ export default function BetaModal({ isOpen, onClose }: BetaModalProps) {
       )}
     </AnimatePresence>
   );
-} 
+}
