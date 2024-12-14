@@ -7,6 +7,15 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space
 export const metadata = {
   title: 'Artik - AI-Powered Lead Generation & Outreach',
   description: 'Revolutionize your influencer marketing with Artik\'s AI-driven lead generation and automated outreach.',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+    other: {
+      rel: 'icon',
+      url: '/favicon.png',
+    }
+  }
 }
 
 export default function RootLayout({
@@ -20,4 +29,3 @@ export default function RootLayout({
     </html>
   )
 }
-
